@@ -1,0 +1,271 @@
+\documentclass[11pt]{article}
+\usepackage[hmargin=1in,vmargin=1in]{geometry}
+\usepackage{xcolor}
+\usepackage{amsmath,amssymb,amsfonts,url,sectsty,framed,tcolorbox,framed}
+\newcommand{\pf}{{\bf Proof: }}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newcommand{\qed}{\hfill \rule{2mm}{2mm}}
+
+
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent
+\rule{\textwidth}{1pt}
+\begin{center}
+{\bf [CS304] Introduction to Cryptography and Network Security}
+\end{center}
+Course Instructor: Dr. Dibyendu Roy \hfill Winter 2023-2024\\
+Scribed by: Khushi Saxena (202151078) \hfill Lecture (Weak 1)
+\\
+\rule{\textwidth}{1pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%write here
+
+\section*{Introduction}
+Cryptography is the science and practice of secure communication. It involves the use of mathematical techniques and algorithms to encrypt and decrypt information, ensuring confidentiality, integrity, and authenticity.
+
+
+\begin{itemize}
+    \item \underline{\textbf{Cryptography}}
+\newline
+In cryptography, we formulate algorithms to enhance security.
+    \item \underline{\textbf{Cryptanalysis}}
+\newline
+This is the part, where we endeavor to test the robustness of the designed algorithm by attempting to uncover potential security vulnerabilities.
+\end{itemize}
+
+\subsection*{Cryptology = Cryptography + Cryptoanalysis}
+
+
+The National Institute of Standards and Technology (NIST) is responsible for establishing standards for cryptographic algorithms and conducting thorough evaluations of both their design and implementation.
+\begin{itemize}
+    \item 
+    \textbf{For Example:}
+\newline
+ATM1 → pin1 + x = y1
+\newline
+ATM2 → pin2 + x = y2
+\end{itemize}
+
+In this scenario, 'x' serves as the secret element. By inscribing 'y1' on our ATM card, we can easily retrieve the actual pin by subtracting 'x' when needed.
+
+\begin{itemize}
+    \item \underline{\textbf{Encryption:}} Converting readable text into unreadable text \\
+          $E(P, K) = C$
+    \item \underline{\textbf{Decryption:}} Converting unreadable text into meaningful, readable text \\
+          $D(C, K) = P$
+\end{itemize}
+
+In the above example, \textit{pin1} is the plain text, \textit{x} is the secret key, and \textit{y1} is the cipher text. The encryption and decryption functions are always public; the only hidden element is the secret key.
+
+
+
+\section*{Types of Cryptography}
+Cryptography can be broadly categorized into two main types:
+
+\begin{itemize}
+    \item \underline{\textbf{Symmetric Key Cryptography:}}
+Utilizing a single secret key for both encryption and decryption operations.
+
+    \item \underline{\textbf{Public Key Cryptography:}} Employing two distinct keys, one for encryption (public key) and another for decryption (secret key). While these keys are related, they are distinct from each other.
+\end{itemize}
+
+\section*{Security Services}
+\begin{enumerate}
+    \item \underline{\textbf{Confidentiality:}} Securing information from unwanted and unauthorized individuals.Confidentiality can be achieved by encryption and decryption.
+    
+    \item \underline{\textbf{Integrity:}} Guaranteeing that the information remains unchanged, and in the event of any modification, appropriate notification is given, permitting only specified and authorized alterations.
+    
+    \item \underline{\textbf{Authentication:}} Confirming that the information originates from the intended source.
+    
+    \item \underline{\textbf{Non-repudiation:}} Creating a system to demonstrate that the sender has genuinely dispatched a specific message, with the ability to uniquely trace the actions.
+\end{enumerate}
+
+\begin{itemize}
+    \item \textbf{Plain Text:} Original message.
+    
+    \item \textbf{Encryption Algorithm:} A function.
+    
+    \item \textbf{Cipher Text:} Unreadable form of plain text.
+    
+    \item \textbf{Decryption Algorithm:} A function.
+\end{itemize}
+
+Encryption function $(M, \text{Encryption key}) = \text{Cipher text}$ \\
+$(P \times \text{Encryption key} \rightarrow C)$
+
+Decryption function $(C, \text{Decryption key}) = \text{Plain text}$ \\
+$(C \times \text{Decryption key} \rightarrow P)$
+
+\section*{Definitions}
+
+\begin{itemize}
+    \item \textbf{Function:} $f: A \rightarrow B$ is a relation between the elements of $A$ and $B$ such that if $a, b \in A$ and $a=b$, then the corresponding function values $f(a) = f(b)$.
+    
+    \item \textbf{One-to-One Function:}
+    If \(f(a) = f(b)\), then it implies that \(a\) must be equal to \(b\). \newline $f(a) = f(b) \Rightarrow a = b$
+    
+    \item \textbf{Onto Function:} For a function $f: A \rightarrow B$, it holds true that for every element b in set B, there exists an element a in set such that $f(a) = b$
+    
+    \item \textbf{Bijective Function:} $f: A \rightarrow B$ is considered bijective if and only if it is both one-to-one and onto.
+    
+    \item \textbf{Permutation:} Let $\pi$ be a permutation on a set $S$, then $\pi: S \rightarrow S$ is a bijection from $S$ to $S$
+    
+    \item \textbf{One-way Function:} $f: x \rightarrow y$ is one-way if it is easy to compute $f(x)$ (in polynomial time) but difficult to find $x$ if $f(x)$ is given. For instance, the ease of finding the product of two prime numbers contrasts with the difficulty of factorizing the product back into its prime components.
+    
+    \item \textbf{Substitution Box:} A substitution box is a cryptographic component that performs substitution of elements, typically bits or bytes, to enhance the security of a cryptographic algorithm.
+    \newline $S: A \rightarrow B$, $|B| \leq |A|$
+\end{itemize}
+
+\section*{Classical Ciphering Techniques}
+
+\vspace{8pt}
+
+\subsection*{Caesar Cipher}
+
+The Caesar Cipher, named after Julius Caesar, involves shifting the letters of a message by a predetermined number.
+\newline Agreed number = 3(for Caesar Cipher)
+\newline E(x,3) = (x+3)%26
+\newline D(c,3) = (c+26-3)%26
+\vspace{6pt}
+\newline
+\textbf{Encryption:} $E(x,3) = (x+3) \mod 26$ \\
+\textbf{Decryption:} $D(c,3) = (c+26-3) \mod 26$
+\newline
+
+Example:
+\begin{itemize}
+    \item Plain text: INTERNET
+    \item Key: 3
+    \item Encryption: Cipher text → LQWHUQHW
+    \item Decryption: Plain text → INTERNET
+\end{itemize}
+
+\vspace{8pt}
+
+\subsection*{Transposition Cipher}
+
+This encryption method alters the sequence of alphabets in the plaintext to generate the ciphertext.
+\newline M = m1m2m3m4....mt
+\newline Now we do a permutation on t elements.
+\vspace{6pt}
+\newline
+\textbf{Encryption:} $C = m_{e(1)}m_{e(2)}m_{e(3)} \ldots m_{e(t)}$ \\
+\textbf{Decryption:} $M = c_{e^{-1}(1)}c_{e^{-1}(2)}c_{e^{-1}(3)} \ldots c_{e^{-1}(t)}$
+\vspace{6pt}
+\newline
+Example:
+\begin{itemize}
+    \item Plain Text: CAESAR
+    \item Secret Key ($e$): 641352
+    \item Cipher Text: RSCEAA
+\end{itemize}
+The secret key implies that the character at the \(e_i\) position in the plaintext should be shifted to the \(i\)-th position to produce the ciphertext.
+\begin{itemize}
+    \item Cipher Text: RSCEAA
+    \item Secret Key ($e^{-1}$): 641352
+    \item Plain Text: CAESAR
+\end{itemize}
+It is a symmetric cryptographic technique.
+\vspace{8pt}
+
+\subsection*{Substitution Cipher}
+
+This technique produces ciphertext by replacing the letters of plaintext with alternative alphabets or symbols.
+\vspace{6pt}
+\newline
+\textbf{Encryption:} \[
+C = e_{(m_1)} \cdot e_{(m_2)} \cdot \ldots \cdot e_{(m_t)}
+\]
+
+where \(e\) is the secret key.
+
+\vspace{8pt}
+
+\subsection*{Affine Cipher}
+
+An extended form of the shift cipher (substitution cipher), the affine cipher utilizes an encryption key represented by an ordered pair of integers from a specified set. $\{0,\ldots,n-1\}$  where n is the size of the
+character set being used(Here it is the alphabets so range is from 0 to 25).
+\newline The secret key for affine cipher is :
+\[ k = (a, b) belongs to Z_{26} \cdot Z_{26} \]
+\newline
+
+\textbf{Encryption:} $e(x, k) = (ax + b) \mod 26$ 
+\newline
+
+\textbf{Decryption:} $d(c, k) = ((c - b) \cdot a^{-1}) \mod 26$
+\newline
+Here, ($a^{−1}$) is multiplicative inverse of a modulo m. We will be able to decrypt a message only if we are able to find ($a^{−1}$). 
+\newline
+
+\underline{\textbf{Multiplicative Inverse:}}
+\newline
+The multiplicative inverse of an integer \(x\) under modulo \(m\) is an integer \(x^{-1}\) such that:
+\[ x \cdot x^{-1} \equiv 1 \pmod{m} \]
+\newline
+The multiplicative inverse of \(x\) under modulo \(m\) exists if and only if \(\text{gcd}(x, m) = 1\). Let \(y\) be the multiplicative inverse of \(x\) modulo \(m\). Hence,
+\[ x \cdot y \equiv 1 \pmod{m} \]
+\[ \Rightarrow m \,|\, (x \cdot y - 1) \]
+\[ \Rightarrow \exists \, t \in \mathbb{Z} \text{ such that } (x \cdot y - 1) = t \cdot m \]
+\[ \Rightarrow 1 = t \cdot m + x \cdot y \]
+
+The Bézout’s Identity states that there always exist integers \(a\) and \(b\) such that:
+\[ \text{gcd}(x, y) = a \cdot x + b \cdot y \]
+
+The integers \(a\) and \(b\) can be found using the Extended Euclidean Algorithm. Equation 1 can be written as:
+\[ \text{gcd}(x, m) = 1 = t \cdot m + x \cdot y \]
+
+Therefore, \(t\) and \(y\) are the integers that can be found using the Extended Euclidean Algorithm, of which \(y\) will be the multiplicative inverse of \(x\) under modulo \(m\).
+
+\vspace{8pt}
+
+\subsection*{Playfair Cipher}
+
+It is a method of encryption that involves encrypting pairs of letters instead of individual letters.
+
+\textbf{Encryption:}
+We create a matrix with dimensions \(5 \times 5\). Each of the 25 letters must be distinct, and typically, one letter (often J) is excluded to limit the set to 25 alphabets instead of 26. If the plaintext includes J, it is substituted with I. Let's explore how to construct this key table using the secret key.
+
+In the key table, the initial characters (left to right) form the phrase, removing any duplicate letters. The remaining table entries are then filled with the remaining letters of the alphabet in their natural order. If the number of letters is odd, an X is appended to the last letter.
+
+Now, let's create the key table for the provided example.
+\vspace{6pt}
+\newline
+
+\textbf{Example:}
+Secret Key : PLAYFAIR EXAMPLE
+
+\[
+\begin{bmatrix}
+P & L & A & Y & F \\
+I & R & E & X & M \\
+B & C & D & G & H \\
+K & N & O & Q & S \\
+T & U & V & W & Z \\
+\end{bmatrix}
+\]
+
+\begin{itemize}
+  \item If both letters reside in the same column, select the letter below each one, wrapping around to the top if at the bottom.
+  \item If both letters are positioned in the same row, choose the letter to the right of each one, looping back to the left if they are at the farthest right.
+  \item If neither of the previous two rules applies, create a rectangle with the two letters and select the letters at the horizontal opposite corners of the rectangle.
+\end{itemize}
+
+\newline
+
+\textbf{Plain text:} HIDE \Rightarrow HI DE \\
+
+\textbf{Cipher text:} BM OD \Rightarrow BMOD \\
+
+\textbf{Plain text:} SACHIN \Rightarrow SA CH IN \\
+
+\textbf{Cipher text:} OF DB RK \Rightarrow OFDBRK
+
+
+
+\end{document}
+
